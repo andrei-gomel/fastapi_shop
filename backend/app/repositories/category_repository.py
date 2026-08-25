@@ -1,5 +1,3 @@
-import re
-
 from sqlalchemy.orm import Session
 from typing import List, Optional
 from ..models.category import Category
