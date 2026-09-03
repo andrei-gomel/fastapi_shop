@@ -21,6 +21,6 @@ def get_category(category_id: int, db: Session = Depends(get_db)):
     return service.get_category_by_id(category_id)
 
 @router.get("/{category_slug}", summary="Get category by slug", response_model=CategoryResponse, status_code=status.HTTP_200_OK)
-def get_category(category_slug: str, db: Session = Depends(get_db)):
+def get_category_by_slug(category_slug: str, db: Session = Depends(get_db)):
     service = CategoryService(db)
     return service.get_category_by_slug(category_slug)
