@@ -1,7 +1,7 @@
 from datetime import datetime
 from pydantic import BaseModel, Field, ConfigDict
 from typing import Optional
-from backend.app.schemas.category import CategoryResponse
+from .category import CategoryResponse
 
 class ProductBase(BaseModel):
     name: str = Field(..., min_length=5, max_length=500, description="Название товара")
