@@ -22,6 +22,14 @@ app.add_middleware(
 
 app.mount('/static', StaticFiles(directory=settings.static_dir), name='static')
 
+app.include_router(products_router)
+app.include_router(categories_router)
+# app.include_router(cart_router)
+
+@app.on_event('startup')
+def on_statup():
+    init_db()
+
 
 @app.get('/')
 def root():
@@ -29,3 +37,8 @@ def root():
         'message': "Welcome to FastApi shop API",
         'docs': 'api/docs'
     }
+
+
+@app.get('/health')
+def health_check():
+    return {'status': 'healthy'}
