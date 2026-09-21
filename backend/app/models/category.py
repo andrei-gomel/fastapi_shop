@@ -9,7 +9,7 @@ class Category(Base):
     name = Column(String, unique=True, nullable=False, index=True)
     slug = Column(String, unique=True, nullable=False, index=True)
     
-    product = relationship("Product", back_populates="category")
+    products = relationship("Product", back_populates="category")
     
     def __repr__(self) -> str:
         return f"<Category(id={self.id}, name={self.name})>"

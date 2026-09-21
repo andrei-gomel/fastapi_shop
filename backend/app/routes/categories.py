@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from typing import List
 from ..database import get_db
 from ..services.category_service import CategoryService
-from ..schemas.category import CategoryResponse
+from ..schemas.category import CategoryCreate, CategoryResponse
 
 router = APIRouter(
     prefix="/api/categories",
@@ -20,7 +20,12 @@ def get_category(category_id: int, db: Session = Depends(get_db)):
     service = CategoryService(db)
     return service.get_category_by_id(category_id)
 
-@router.get("/{category_slug}", summary="Get category by slug", response_model=CategoryResponse, status_code=status.HTTP_200_OK)
-def get_category_by_slug(category_slug: str, db: Session = Depends(get_db)):
+@router.get("/slug/{slug}", summary="Get category by slug", response_model=CategoryResponse, status_code=status.HTTP_200_OK)
+def get_category_by_slug(slug: str, db: Session = Depends(get_db)):
     service = CategoryService(db)
-    return service.get_category_by_slug(category_slug)
+    return service.get_category_by_slug(slug)
+
+@router.post("", summary="Create category", response_model=CategoryCreate, status_code=status.HTTP_201_CREATED)
+def create_category(category_data: CategoryCreate, db: Session = Depends(get_db)) -> CategoryCreate:
+    service = CategoryService(db)
+    return service.create_category(category_data)
