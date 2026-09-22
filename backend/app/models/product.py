@@ -11,7 +11,7 @@ class Product(Base):
     description = Column(Text)
     price = Column(Float, nullable=False)
     category_id = Column(Integer, ForeignKey("categories.id", ondelete="CASCADE"), nullable=False)
-    image_url = Column(String(255))
+    image_url = Column(String(255), nullable=True)
     created_at = Column(DateTime, default=datetime.datetime.now)
     
     category = relationship("Category", back_populates="products")
