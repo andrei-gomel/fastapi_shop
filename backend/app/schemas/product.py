@@ -10,6 +10,9 @@ class ProductBase(BaseModel):
     image_url: Optional[str] = Field(None, min_length=10, max_length=255, description="Ссылка на изображение")
     category_id: int = Field(..., description="ID категории, к которой принадлежит товар")
 
+    model_config = ConfigDict(from_attributes=True)
+    
+    
 class ProductCreate(ProductBase):
     pass
 

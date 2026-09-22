@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from ..database import get_db
 from ..services.product_service import ProductService
 from ..schemas.product import ProductCreate, ProductListResponse, ProductResponse
+from ..schemas.category import CategoryProductResponse
 
 router = APIRouter(
     prefix="/api/products",
@@ -23,6 +24,11 @@ def get_product(product_id: int, db: Session = Depends(get_db)):
 def get_products_by_category(category_id: int, db: Session = Depends(get_db)):
     service = ProductService(db)
     return service.get_products_by_category(category_id)
+
+@router.get("/category/slug/{slug}", summary="Get products by category slug", response_model=CategoryProductResponse, status_code=status.HTTP_200_OK)
+def get_products_by_category_slug(slug: str, db: Session = Depends(get_db)):
+    service = ProductService(db)
+    return service.get_products_by_slug(slug)
 
 @router.post("", summary="Create product", response_model=ProductCreate, status_code=status.HTTP_201_CREATED)
 def product_category(product_data: ProductCreate, db: Session = Depends(get_db)):

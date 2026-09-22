@@ -1,5 +1,6 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from typing import List, Optional
+# from ..models.product import Product
 from ..models.category import Category
 from ..schemas.category import CategoryCreate
 
@@ -13,8 +14,16 @@ class CategoryRepository:
     def get_by_id(self, category_id: int) -> Optional[Category]:
         return self.db.query(Category).filter(Category.id == category_id).first()
     
-    def get_by_slug(self, slug: str) -> Optional[Category]:
+    def get_category_by_slug(self, slug: str) -> Optional[Category]:
         return self.db.query(Category).filter(Category.slug == slug).first()
+    
+    def get_products_by_category_slug(self, slug: str) -> Optional[Category]:
+        return (
+                    self.db.query(Category)
+                    .options(joinedload(Category.products))
+                    .filter(Category.slug == slug)
+                    .first()
+                )
     
     def create(self, category_data: CategoryCreate) -> Category:
         db_category = Category(**category_data.model_dump())
